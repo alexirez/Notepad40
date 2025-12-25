@@ -4,7 +4,7 @@
 ## Get latest from `dotnet new gitignore`
 
 # Project-specific files go here
-UserData/
+
 
 # dotenv files
 .env

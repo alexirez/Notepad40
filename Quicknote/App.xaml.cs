@@ -1,4 +1,4 @@
-﻿using YourApp.Views;
+﻿using Quicknote.Views;
 
 namespace Quicknote;
 

@@ -1,16 +1,46 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="YourApp.Views.MainView"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="QNote">
+    xmlns:models="clr-namespace:Quicknote.Models"
+    xmlns:viewModels="clr-namespace:Quicknote.ViewModels"
+    x:Class="Quicknote.Views.MainView"
+    x:DataType="viewModels:MainViewModel">
 
-    <Grid>
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="280,*">
+
+        <!-- Toolbar -->
         <Label
-            Text="QNote"
-            FontSize="32"
-            HorizontalOptions="Center"
-            VerticalOptions="Center" />
-    </Grid>
+            Grid.ColumnSpan="2"
+            Text="Commands Toolbar — still in progress"
+            Padding="12"
+            BackgroundColor="#222"
+            TextColor="White" />
 
+        <!-- Notes list -->
+        <CollectionView
+            Grid.Row="1"
+            BackgroundColor="#1E1E1E"
+            ItemsSource="{Binding Notes}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Note">
+                    <Label
+                        Text="{Binding Content}"
+                        Padding="10"
+                        TextColor="White" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Editor -->
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="12">
+            <Editor
+                Placeholder="Write your note..."
+                Text="{Binding NoteText, Mode=TwoWay}" />
+
+            <Button
+                Text="Save Note"
+                Command="{Binding SaveNoteCommand}" />
+        </VerticalStackLayout>
+
+    </Grid>
 </ContentPage>

@@ -10,7 +10,6 @@ public class MainViewModel : ViewModelBase
 {
     IFileSaver _fileSaver;
     public ObservableCollection<Note> Notes { get; } = new();
-
     private string _noteText = ""; // ensure non-null by default
     public string NoteText
     {
@@ -45,7 +44,5 @@ public class MainViewModel : ViewModelBase
         Notes.Add(note);
 
         await _fileSaver.SaveAsync(note);
-
-        NoteText = "";
     }
 }

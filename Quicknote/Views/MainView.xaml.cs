@@ -7,9 +7,9 @@ namespace Quicknote.Views;
 
 public partial class MainView : ContentPage
 {
-    public MainView()
+    public MainView(MainViewModel vm)
     {
         InitializeComponent();
-        BindingContext = new MainViewModel(new FileSaver());
+        BindingContext = vm;
     }
 }

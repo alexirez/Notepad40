@@ -2,6 +2,7 @@
 using Quicknote.Views;
 using Quicknote.ViewModels;
 using Quicknote.Services;
+using Quicknote.Models;
 
 namespace Quicknote;
 
@@ -21,7 +22,9 @@ public static class MauiProgram
 		// ------------------------
         // Register services
         // ------------------------
-		builder.Services.AddSingleton<FileSaver>();
+		builder.Services.AddSingleton<AppSettings>();
+		builder.Services.AddSingleton<ISettingsManager, SettingsManager>();
+		builder.Services.AddSingleton<INoteService, NoteService>();
 		builder.Services.AddTransient<MainViewModel>();
 		builder.Services.AddTransient<MainView>();
 		

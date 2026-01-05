@@ -8,7 +8,7 @@ namespace Quicknote.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    IFileSaver _fileSaver;
+    INoteService _noteService;
     public ObservableCollection<Note> Notes { get; } = new();
     private string _noteText = ""; // ensure non-null by default
     public string NoteText
@@ -24,9 +24,9 @@ public class MainViewModel : ViewModelBase
 
     public ICommand SaveNoteCommand { get; }
 
-    public MainViewModel(IFileSaver fileSaver)
+    public MainViewModel(INoteService noteService)
     {
-        _fileSaver = fileSaver;
+        _noteService = noteService;
         SaveNoteCommand = new Command(async () => await SaveNoteAsync());
     }
 
@@ -43,6 +43,6 @@ public class MainViewModel : ViewModelBase
 
         Notes.Add(note);
 
-        await _fileSaver.SaveAsync(note);
+        await _noteService.SaveAsync(note);
     }
 }

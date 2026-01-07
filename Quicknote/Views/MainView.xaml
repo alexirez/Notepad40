@@ -26,6 +26,9 @@
                     <Label
                         Text="{Binding Content}"
                         Padding="10"
+                        LineBreakMode="TailTruncation"
+                        MaxLines="1"
+                        FontSize="14"
                         TextColor="White" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>

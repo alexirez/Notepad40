@@ -1,4 +1,5 @@
 using Quicknote.Models;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 
 namespace Quicknote.Services;
@@ -45,5 +46,26 @@ public class NoteService : INoteService
     private string GetNotePath(Guid id)
     {
         return Path.Combine(_notesDirectory, $"{id}.json");
+    }
+
+    public async Task<IReadOnlyList<Note>> LoadAllAsync()
+    {
+        /*Load all notes that are currently stored locally*/
+        ObservableCollection<Note> notes = new ObservableCollection<Note>();
+        var files = Directory.GetFiles(_notesDirectory, "*.json");
+
+        foreach (var file in files)
+        {
+            try
+            {
+                string json = await File.ReadAllTextAsync(file);
+                var note = JsonSerializer.Deserialize<Note>(json);
+                if (note != null)
+                    notes.Add(note);
+            }
+            catch {}
+        }
+
+        return notes;
     }
 }

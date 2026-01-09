@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Text.Json;
 using System.Windows.Input;
 using Quicknote.Models;
 using Quicknote.Services;
@@ -61,7 +60,7 @@ public class MainViewModel : ViewModelBase
     }
 
     public async Task InitializeAsync()
-    /*This method is used to Initialize the viewModel in App.xaml.cs*/
+    /*Performs all work related to initializing the mainView*/
     {
         await InitializeNotesAsync();
     }

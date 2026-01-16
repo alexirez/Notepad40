@@ -9,27 +9,72 @@
     <Grid RowDefinitions="Auto,*" ColumnDefinitions="280,*">
 
         <!-- Toolbar -->
-        <Label
+        <Grid
             Grid.ColumnSpan="2"
-            Text="Commands Toolbar — still in progress"
-            Padding="12"
+            ColumnDefinitions="*,Auto"
             BackgroundColor="#222"
-            TextColor="White" />
+            Padding="12">
+
+            <!-- Left side -->
+            <Label
+                Text="Quicknote"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+            <!-- Right side: Delete button -->
+            <Button
+                Grid.Column="1"
+                Text="Delete"
+                Command="{Binding DeleteNoteCommand}"
+                VerticalOptions="Center" />
+        </Grid>
 
         <!-- Notes list -->
         <CollectionView
             Grid.Row="1"
             BackgroundColor="#1E1E1E"
-            ItemsSource="{Binding Notes}">
+            ItemsSource="{Binding Notes}"
+            SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
+            SelectionMode="Single">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Note">
-                    <Label
-                        Text="{Binding Content}"
+                    <Border
                         Padding="10"
-                        LineBreakMode="TailTruncation"
-                        MaxLines="1"
-                        FontSize="14"
-                        TextColor="White" />
+                        BackgroundColor="Transparent"
+                        StrokeThickness="1"
+                        Stroke="Transparent"
+                        Margin="4">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="24" />
+                        </Border.StrokeShape>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#2B2B2B" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Label
+                            Text="{Binding Content}"
+                            Padding="10"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1"
+                            FontSize="14"
+                            TextColor="White" />
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -38,7 +83,11 @@
         <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="12">
             <Editor
                 Placeholder="Write your note..."
-                Text="{Binding NoteText, Mode=TwoWay}" />
+                Text="{Binding NoteText, Mode=TwoWay}"
+                AutoSize="TextChanges"
+                BackgroundColor="#2E2E2E"
+                TextColor="White"
+                Margin="0,0,0,12"/>
 
             <Button
                 Text="Save Note"

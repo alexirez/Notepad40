@@ -18,6 +18,32 @@ public class NoteService : INoteService
         Directory.CreateDirectory(_notesDirectory);
     }
 
+    private string GetNotePath(Guid id)
+    {
+        return Path.Combine(_notesDirectory, $"{id}.json");
+    }
+
+    public async Task<IReadOnlyList<Note>> LoadAllAsync()
+    {
+        /*Load all notes that are currently stored locally*/
+        ObservableCollection<Note> notes = new ObservableCollection<Note>();
+        var files = Directory.GetFiles(_notesDirectory, "*.json");
+
+        foreach (var file in files)
+        {
+            try
+            {
+                string json = await File.ReadAllTextAsync(file);
+                var note = JsonSerializer.Deserialize<Note>(json);
+                if (note != null)
+                    notes.Add(note);
+            }
+            catch {}
+        }
+
+        return notes;
+    }
+
     public async Task SaveAsync(Note note)
     /*Save a JSON file to disk, in AppData directory*/
     {
@@ -43,29 +69,19 @@ public class NoteService : INoteService
         return Task.CompletedTask;
     }
 
-    private string GetNotePath(Guid id)
+    public async Task UpdateAsync(Note note)
     {
-        return Path.Combine(_notesDirectory, $"{id}.json");
-    }
+        /*Modify the existing note rather than making a new copy*/
+        string filePath = GetNotePath(note.Id);
 
-    public async Task<IReadOnlyList<Note>> LoadAllAsync()
-    {
-        /*Load all notes that are currently stored locally*/
-        ObservableCollection<Note> notes = new ObservableCollection<Note>();
-        var files = Directory.GetFiles(_notesDirectory, "*.json");
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException("Note file not found", filePath);
 
-        foreach (var file in files)
+        var json = JsonSerializer.Serialize(note, new JsonSerializerOptions
         {
-            try
-            {
-                string json = await File.ReadAllTextAsync(file);
-                var note = JsonSerializer.Deserialize<Note>(json);
-                if (note != null)
-                    notes.Add(note);
-            }
-            catch {}
-        }
+            WriteIndented = true
+        });
 
-        return notes;
+        await File.WriteAllTextAsync(filePath, json);
     }
 }

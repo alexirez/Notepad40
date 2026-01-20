@@ -3,6 +3,7 @@ using Quicknote.Views;
 using Quicknote.ViewModels;
 using Quicknote.Services;
 using Quicknote.Models;
+using CommunityToolkit.Maui;
 
 namespace Quicknote;
 
@@ -18,6 +19,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
+
+		// ------------------------
+		// Add dependencies
+		// ------------------------
+		builder.UseMauiCommunityToolkit();
 
 		// ------------------------
         // Register services

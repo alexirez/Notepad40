@@ -24,7 +24,9 @@ public partial class App : Application
 
 		var window = new Window(mainView)
 		{
-			Title = "Quicknote"
+			Title = "Quicknote",
+			MinimumWidth = 430,
+    		MinimumHeight = 340
 		};
 
 		return window;

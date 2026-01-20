@@ -49,6 +49,7 @@ public class MainViewModel : ViewModelBase
 
     public ICommand SaveNoteCommand { get; }
     public ICommand DeleteNoteCommand { get; }
+    public ICommand NewNoteCommand { get; }
 
     public MainViewModel(INoteService noteService, ISettingsManager settingsManager)
     {
@@ -59,6 +60,7 @@ public class MainViewModel : ViewModelBase
             execute: async () => await DeleteSelectedNoteAsync(),
             canExecute: () => SelectedNote != null
         );
+        NewNoteCommand = new Command(NewNote);
     }
 
     public async Task InitializeAsync()
@@ -112,5 +114,11 @@ public class MainViewModel : ViewModelBase
 
         Notes.Remove(_selectedNote);
         SelectedNote = null;
+    }
+
+    private void NewNote()
+    {
+        SelectedNote = null;
+        NoteText = string.Empty;
     }
 }

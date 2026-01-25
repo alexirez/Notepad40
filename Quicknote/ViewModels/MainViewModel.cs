@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Quicknote.Models;
+using Quicknote.Views;
 using Quicknote.Services;
 
 namespace Quicknote.ViewModels;
@@ -9,6 +10,7 @@ public class MainViewModel : ViewModelBase
 {
     INoteService _noteService;
     ISettingsManager _settingsManager;
+    public event EventHandler? OpenSettingsRequested;
     public ObservableCollection<Note> Notes { get; } = [];
     private Note? _selectedNote;
     public Note? SelectedNote
@@ -48,8 +50,9 @@ public class MainViewModel : ViewModelBase
     }
 
     public ICommand SaveNoteCommand { get; }
-    public ICommand DeleteNoteCommand { get; }
     public ICommand NewNoteCommand { get; }
+    public ICommand DeleteNoteCommand { get; }
+    public ICommand OpenSettingsCommand { get; }
 
     public MainViewModel(INoteService noteService, ISettingsManager settingsManager)
     {
@@ -61,6 +64,12 @@ public class MainViewModel : ViewModelBase
             canExecute: () => SelectedNote != null
         );
         NewNoteCommand = new Command(NewNote);
+        OpenSettingsCommand = new Command(async () => await OnOpenSettingsRequested());
+    }
+
+    public async Task OnOpenSettingsRequested()
+    {
+        OpenSettingsRequested?.Invoke(this, EventArgs.Empty);
     }
 
     public async Task InitializeAsync()
@@ -77,6 +86,12 @@ public class MainViewModel : ViewModelBase
         Notes.Clear();
         foreach (Note note in notesFromDisk)
             Notes.Add(note);
+    }
+
+    private void NewNote()
+    {
+        SelectedNote = null;
+        NoteText = string.Empty;
     }
 
     private async Task SaveNoteAsync()
@@ -114,11 +129,5 @@ public class MainViewModel : ViewModelBase
 
         Notes.Remove(_selectedNote);
         SelectedNote = null;
-    }
-
-    private void NewNote()
-    {
-        SelectedNote = null;
-        NoteText = string.Empty;
     }
 }

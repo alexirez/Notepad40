@@ -33,6 +33,8 @@ public static class MauiProgram
 		builder.Services.AddSingleton<INoteService, NoteService>();
 		builder.Services.AddTransient<MainViewModel>();
 		builder.Services.AddTransient<MainView>();
+		builder.Services.AddTransient<SettingsPopup>();
+		builder.Services.AddTransient<SettingsViewModel>();
 		
 
 #if DEBUG

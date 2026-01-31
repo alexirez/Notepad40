@@ -5,11 +5,14 @@ namespace Quicknote.Views;
 
 public partial class MainView : ContentPage
 {
+    IServiceProvider _services;
     bool _isNavigating;
-    public MainView(MainViewModel vm)
+
+    public MainView(MainViewModel vm, IServiceProvider services)
     {
         InitializeComponent();
         BindingContext = vm;
+        _services = services;
         LoadNotes(vm); // Load notes from memory
     }
 
@@ -53,7 +56,8 @@ public partial class MainView : ContentPage
 
         try
         {
-            await this.ShowPopupAsync(new SettingsPopup());
+            var popup = _services.GetRequiredService<SettingsPopup>();
+            await this.ShowPopupAsync(popup);
         }
         finally
         {

@@ -37,15 +37,15 @@ public class MainViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    private double _fontSize;
     public double FontSize
     {
-        get => _settingsManager.Settings.FontSize;
+        get => _fontSize;
         set
         {
-            if (_settingsManager.Settings.FontSize == value) return;
-            _settingsManager.Settings.FontSize = value;
+            if (_fontSize == value) return;
+            _fontSize = value;
             OnPropertyChanged();
-            _settingsManager.Save(); // immediately save changed settings locally
         }
     }
 
@@ -65,6 +65,15 @@ public class MainViewModel : ViewModelBase
         );
         NewNoteCommand = new Command(NewNote);
         OpenSettingsCommand = new Command(async () => await OnOpenSettingsRequested());
+
+        // subscribe to changes in the settings
+        _fontSize = _settingsManager.Settings.FontSize; // initial value
+
+        _settingsManager.Settings.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppSettings.FontSize))
+                FontSize = _settingsManager.Settings.FontSize;
+        };
     }
 
     public async Task OnOpenSettingsRequested()

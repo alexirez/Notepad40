@@ -2,17 +2,23 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Class="Quicknote.Views.SettingsPopup">
+    xmlns:models="clr-namespace:Quicknote.Models"
+    xmlns:viewModels="clr-namespace:Quicknote.ViewModels"
+    x:Class="Quicknote.Views.SettingsPopup"
+    x:DataType="viewModels:SettingsViewModel"
+    Padding="0">
 
     <Border
         BackgroundColor="#2E2E2E"
-        Padding="20"
-        StrokeShape="RoundRectangle 24"
+        Padding="8"
+        StrokeShape="RoundRectangle 18"
         WidthRequest="400"
-        HeightRequest="500">
+        HeightRequest="500"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
 
         <!-- Settings options -->
-        <VerticalStackLayout Spacing="20">
+        <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
 
             <!-- Font Size Row -->
             <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Fill" Spacing="10">
@@ -26,16 +32,18 @@
                 <!-- Decrease Button -->
                 <Button
                     Text="-"
+                    Command="{Binding DecreaseFontSizeCommand}"
                     WidthRequest="40"
                     HeightRequest="40"
-                    FontSize="18"
+                    FontSize="{Binding FontSize}"
                     BackgroundColor="#444"
                     TextColor="White"/>
                 
                 <!-- Textbox -->
                 <Entry
-                    Text="14"
+                    Text="{Binding FontSizeText, Mode=TwoWay}"
                     Keyboard="Numeric"
+                    Unfocused="OnFontSizeUnfocused"
                     HorizontalTextAlignment="Center"
                     WidthRequest="80"
                     HeightRequest="40"
@@ -45,9 +53,10 @@
                 <!-- Increase Button -->
                 <Button
                     Text="+"
+                    Command="{Binding IncreaseFontSizeCommand}"
                     WidthRequest="40"
                     HeightRequest="40"
-                    FontSize="18"
+                    FontSize="{Binding FontSize}"
                     BackgroundColor="#444"
                     TextColor="White"/>
             </HorizontalStackLayout>

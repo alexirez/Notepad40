@@ -119,6 +119,7 @@ public class MainViewModel : ViewModelBase
             };
 
             Notes.Add(note);
+            SelectedNote = note;
             await _noteService.SaveAsync(note);
         }
         else

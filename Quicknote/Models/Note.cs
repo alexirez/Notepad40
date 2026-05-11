@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Quicknote.Models;
+namespace Notepad40.Models;
 
 public class Note : INotifyPropertyChanged
 {

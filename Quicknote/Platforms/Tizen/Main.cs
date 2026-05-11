@@ -2,7 +2,7 @@ using System;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace Quicknote;
+namespace Notepad40;
 
 class Program : MauiApplication
 {

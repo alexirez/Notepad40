@@ -1,0 +1,160 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    x:Name="Root"
+    xmlns:models="clr-namespace:Notepad40.Models"
+    xmlns:viewModels="clr-namespace:Notepad40.ViewModels"
+    x:Class="Notepad40.Views.MainView"
+    x:DataType="viewModels:MainViewModel">
+
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*">
+
+        <!-- Toolbar -->
+        <Grid
+            Grid.ColumnSpan="2"
+            ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+            BackgroundColor="#222"
+            Padding="12">
+
+            <!-- Logo -->
+            <Label
+                Text="Notepad40"
+                TextColor="White"
+                VerticalOptions="Center" />
+
+            <!-- New Note button -->
+            <Button
+                Grid.Column="1"
+                Text="New"
+                TextColor ="White"
+                Command="{Binding NewNoteCommand}"
+                MinimumWidthRequest="40"
+                VerticalOptions="Center"
+                Margin="3,3,3,3"
+                Pressed="OnButtonPressed"
+                Released="OnButtonReleased"/>
+
+            <!-- Save Button -->
+            <Button
+                Grid.Column ="2"
+                Text="Save"
+                TextColor ="White"
+                Command="{Binding SaveNoteCommand}"
+                MinimumWidthRequest="40"
+                VerticalOptions="Center"
+                Margin="3,3,3,3"
+                Pressed="OnButtonPressed"
+                Released="OnButtonReleased"/>
+
+            <!-- Delete Note button -->
+            <Button
+                Grid.Column="3"
+                Text="Delete"
+                Style="{StaticResource DeleteButtonStyle}"
+                TextColor ="White"
+                Command="{Binding DeleteNoteCommand}"
+                MinimumWidthRequest="40"
+                VerticalOptions="Center"
+                Margin="3,3,3,3"
+                Pressed="OnButtonPressed"
+                Released="OnButtonReleased"/>
+
+            <!-- Open Settings button -->
+            <Button
+                Grid.Column="4"
+                Text="Settings"
+                TextColor="White"
+                Command="{Binding OpenSettingsCommand}"
+                MinimumWidthRequest="40"
+                VerticalOptions="Center"
+                Margin="3,3,3,3"
+                Pressed="OnButtonPressed"
+                Released="OnButtonReleased"/>
+        </Grid>
+
+        <!-- Notes list -->
+        <CollectionView
+            Grid.Row="1"
+            BackgroundColor="#1E1E1E"
+            ItemsSource="{Binding Notes}"
+            SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
+            SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Note">
+                    <Border
+                        Padding="10"
+                        BackgroundColor="Transparent"
+                        StrokeThickness="1"
+                        Stroke="Transparent"
+                        Margin="4">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="24" />
+                        </Border.StrokeShape>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="NoteHighlightStates">
+
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="#2B2B2B" />
+                                    </VisualState.Setters>
+                                </VisualState>
+
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Label
+                            Text="{Binding Content}"
+                            Padding="10"
+                            LineBreakMode="TailTruncation"
+                            MaxLines="1"
+                            FontSize="{Binding Source={x:Reference Root}, Path=BindingContext.FontSize}"
+                            TextColor="White" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Editor -->
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="12">
+            <Editor
+                Placeholder="Write your note..."
+                Text="{Binding NoteText, Mode=TwoWay}"
+                AutoSize="TextChanges"
+                BackgroundColor="#2E2E2E"
+                TextColor="White"
+                Margin="0,0,0,12"/>
+        </VerticalStackLayout>
+
+    </Grid>
+
+    <ContentPage.Resources>
+    <Style x:Key="DeleteButtonStyle" TargetType="Button">
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#FF910505"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#FF8B4D4D"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+</ContentPage.Resources>
+</ContentPage>

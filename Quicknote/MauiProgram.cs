@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
-using Quicknote.Views;
-using Quicknote.ViewModels;
-using Quicknote.Services;
-using Quicknote.Models;
+using Notepad40.Views;
+using Notepad40.ViewModels;
+using Notepad40.Services;
+using Notepad40.Models;
 using CommunityToolkit.Maui;
 
-namespace Quicknote;
+namespace Notepad40;
 
 public static class MauiProgram
 {

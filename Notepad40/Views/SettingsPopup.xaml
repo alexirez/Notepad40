@@ -1,0 +1,72 @@
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:models="clr-namespace:Notepad40.Models"
+    xmlns:viewModels="clr-namespace:Notepad40.ViewModels"
+    x:Class="Notepad40.Views.SettingsPopup"
+    x:DataType="viewModels:SettingsViewModel"
+    Padding="0">
+
+    <Border
+        BackgroundColor="#2E2E2E"
+        Padding="8"
+        StrokeShape="RoundRectangle 18"
+        WidthRequest="400"
+        HeightRequest="500"
+        HorizontalOptions="Center"
+        VerticalOptions="Center">
+
+        <!-- Settings options -->
+        <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+
+            <!-- Font Size Row -->
+            <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Fill" Spacing="10">
+                
+                <Label
+                    Text="Font size"
+                    TextColor="White"
+                    VerticalOptions="Center"
+                    WidthRequest="80"/>
+                
+                <!-- Decrease Button -->
+                <Button
+                    Text="-"
+                    Command="{Binding DecreaseFontSizeCommand}"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    FontSize="{Binding FontSize}"
+                    BackgroundColor="#444"
+                    TextColor="White"
+                    Pressed="OnButtonPressed"
+                    Released="OnButtonReleased"/>
+                
+                <!-- Textbox -->
+                <Entry
+                    Text="{Binding FontSizeText, Mode=TwoWay}"
+                    Keyboard="Numeric"
+                    Unfocused="OnFontSizeUnfocused"
+                    HorizontalTextAlignment="Center"
+                    WidthRequest="80"
+                    HeightRequest="40"
+                    BackgroundColor="#3A3A3A"
+                    TextColor="White"
+                    Completed="OnFontSizeCompleted"/>
+                
+                <!-- Increase Button -->
+                <Button
+                    Text="+"
+                    Command="{Binding IncreaseFontSizeCommand}"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    FontSize="{Binding FontSize}"
+                    BackgroundColor="#444"
+                    TextColor="White"
+                    Pressed="OnButtonPressed"
+                    Released="OnButtonReleased"/>
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+
+    </Border>
+</toolkit:Popup>

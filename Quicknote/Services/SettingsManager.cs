@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
-using Quicknote.Models;
+using Notepad40.Models;
 
-namespace Quicknote.Services;
+namespace Notepad40.Services;
 
 public class SettingsManager : ISettingsManager, INotifyPropertyChanged
 {

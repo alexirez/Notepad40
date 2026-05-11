@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Quicknote;
+namespace Notepad40;
 
 public class Program
 {

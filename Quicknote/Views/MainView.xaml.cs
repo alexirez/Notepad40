@@ -1,7 +1,7 @@
 using CommunityToolkit.Maui.Extensions;
-using Quicknote.ViewModels;
+using Notepad40.ViewModels;
 
-namespace Quicknote.Views;
+namespace Notepad40.Views;
 
 public partial class MainView : ContentPage
 {

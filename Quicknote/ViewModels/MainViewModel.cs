@@ -1,10 +1,10 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Quicknote.Models;
-using Quicknote.Views;
-using Quicknote.Services;
+using Notepad40.Models;
+using Notepad40.Views;
+using Notepad40.Services;
 
-namespace Quicknote.ViewModels;
+namespace Notepad40.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {

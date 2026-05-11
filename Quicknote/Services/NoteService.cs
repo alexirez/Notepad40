@@ -1,8 +1,8 @@
-using Quicknote.Models;
+using Notepad40.Models;
 using System.Collections.ObjectModel;
 using System.Text.Json;
 
-namespace Quicknote.Services;
+namespace Notepad40.Services;
 
 /*This service is responsible for saving, deleting, and modifying notes.
 More will be added as needed.*/

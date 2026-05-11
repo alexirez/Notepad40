@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="Root"
-    xmlns:models="clr-namespace:Quicknote.Models"
-    xmlns:viewModels="clr-namespace:Quicknote.ViewModels"
-    x:Class="Quicknote.Views.MainView"
+    xmlns:models="clr-namespace:Notepad40.Models"
+    xmlns:viewModels="clr-namespace:Notepad40.ViewModels"
+    x:Class="Notepad40.Views.MainView"
     x:DataType="viewModels:MainViewModel">
 
     <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*">
@@ -19,7 +19,7 @@
 
             <!-- Logo -->
             <Label
-                Text="Quicknote"
+                Text="Notepad40"
                 TextColor="White"
                 VerticalOptions="Center" />
 

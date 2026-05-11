@@ -1,7 +1,7 @@
 using System.Windows.Input;
-using Quicknote.Services;
+using Notepad40.Services;
 
-namespace Quicknote.ViewModels;
+namespace Notepad40.ViewModels;
 
 public class SettingsViewModel : ViewModelBase
 {

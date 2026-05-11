@@ -1,8 +1,8 @@
 ﻿<maui:MauiWinUIApplication
-    x:Class="Quicknote.WinUI.App"
+    x:Class="Notepad40.WinUI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:maui="using:Microsoft.Maui"
-    xmlns:local="using:Quicknote.WinUI">
+    xmlns:local="using:Notepad40.WinUI">
 
 </maui:MauiWinUIApplication>

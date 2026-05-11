@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Quicknote;
+namespace Notepad40;
 
 [Application]
 public class MainApplication : MauiApplication

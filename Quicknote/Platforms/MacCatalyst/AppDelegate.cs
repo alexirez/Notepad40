@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Quicknote;
+namespace Notepad40;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

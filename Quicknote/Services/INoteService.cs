@@ -1,6 +1,6 @@
-using Quicknote.Models;
+using Notepad40.Models;
 
-namespace Quicknote.Services;
+namespace Notepad40.Services;
 
 public interface INoteService
 {

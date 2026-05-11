@@ -1,8 +1,8 @@
 using CommunityToolkit.Maui.Views;
-using Quicknote.Services;
-using Quicknote.ViewModels;
+using Notepad40.Services;
+using Notepad40.ViewModels;
 
-namespace Quicknote.Views;
+namespace Notepad40.Views;
 
 public partial class SettingsPopup : Popup
 {

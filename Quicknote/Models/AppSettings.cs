@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace Quicknote.Models;
+namespace Notepad40.Models;
 
 public class AppSettings : INotifyPropertyChanged
 {

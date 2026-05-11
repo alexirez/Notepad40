@@ -1,8 +1,8 @@
-﻿using Quicknote.Views;
+﻿using Notepad40.Views;
 using Microsoft.Extensions.DependencyInjection;
 
 
-namespace Quicknote;
+namespace Notepad40;
 
 public partial class App : Application
 {
@@ -24,7 +24,7 @@ public partial class App : Application
 
 		var window = new Window(mainView)
 		{
-			Title = "Quicknote",
+			Title = "Notepad40",
 			MinimumWidth = 430,
     		MinimumHeight = 340
 		};

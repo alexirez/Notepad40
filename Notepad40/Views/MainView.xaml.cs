@@ -31,6 +31,13 @@ public partial class MainView : ContentPage
         }
     }
 
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        if (BindingContext is MainViewModel vm)
+            vm.OpenSettingsRequested -= OnOpenSettingsRequested;
+    }
+
     private async void OnButtonPressed(object sender, EventArgs e)
     {
         if (sender is not VisualElement view)

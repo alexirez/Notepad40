@@ -1,5 +1,6 @@
 using CommunityToolkit.Maui.Extensions;
 using Notepad40.ViewModels;
+using Microsoft.Maui.Graphics.Platform;
 
 namespace Notepad40.Views;
 
@@ -13,6 +14,7 @@ public partial class MainView : ContentPage
         InitializeComponent();
         BindingContext = vm;
         _services = services;
+
         LoadNotes(vm); // Load notes from memory
     }
 
@@ -29,6 +31,13 @@ public partial class MainView : ContentPage
         {
             vm.OpenSettingsRequested += OnOpenSettingsRequested;
         }
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        if (BindingContext is MainViewModel vm)
+            vm.OpenSettingsRequested -= OnOpenSettingsRequested;
     }
 
     private async void OnButtonPressed(object sender, EventArgs e)

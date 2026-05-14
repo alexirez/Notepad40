@@ -2,173 +2,125 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    x:Name="Root"
     xmlns:models="clr-namespace:Notepad40.Models"
     xmlns:viewModels="clr-namespace:Notepad40.ViewModels"
     x:Class="Notepad40.Views.MainView"
-    x:DataType="viewModels:MainViewModel"
-    BackgroundColor="Black">
+    x:Name="Root"
+    x:DataType="viewModels:MainViewModel">
 
-    <Border
-        Stroke="#FF090909"
-        StrokeThickness="4"
-        Padding="0">
-        <Grid>
-            <!-- Background Layer -->
-            <Image
-                Source="vecteezy_wood_background.jpg"
-                Aspect="AspectFill"
-                Opacity="1" />
+    <Grid>
 
-            <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*">
+        <!-- Background Layer -->
+        <Image
+            Source="vecteezy_wood_background.jpg"
+            Aspect="AspectFill"
+            Opacity="1" />
 
-                <!-- Toolbar -->
-                <Grid
-                    Grid.ColumnSpan="2"
-                    ColumnDefinitions="*,Auto,Auto,Auto,Auto"
-                    BackgroundColor="Transparent"
-                    Padding="12">
+        <!-- MAIN LAYOUT -->
+        <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*">
 
-                    <!-- Logo -->
-                    <Label
-                        Text="Notepad40"
-                        TextColor="White"
-                        VerticalOptions="Center" />
+            <!-- TOOLBAR -->
+            <Grid
+                Grid.ColumnSpan="2"
+                ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                Padding="12">
 
-                    <!-- New Note button -->
-                    <Button
-                        Grid.Column="1"
-                        Text="New"
-                        TextColor ="White"
-                        Command="{Binding NewNoteCommand}"
-                        MinimumWidthRequest="40"
-                        VerticalOptions="Center"
-                        Margin="3,3,3,3"
-                        Pressed="OnButtonPressed"
-                        Released="OnButtonReleased"/>
+                <Grid.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#3E1F00" Offset="0.0" />
+                        <GradientStop Color="#6B3A1F" Offset="0.5" />
+                        <GradientStop Color="#3E1F00" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Grid.Background>
 
-                    <!-- Save Button -->
-                    <Button
-                        Grid.Column ="2"
-                        Text="Save"
-                        TextColor ="White"
-                        Command="{Binding SaveNoteCommand}"
-                        MinimumWidthRequest="40"
-                        VerticalOptions="Center"
-                        Margin="3,3,3,3"
-                        Pressed="OnButtonPressed"
-                        Released="OnButtonReleased"/>
+                <Label
+                    Text="Notepad40"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    VerticalOptions="Center" />
 
-                    <!-- Delete Note button -->
-                    <Button
-                        Grid.Column="3"
-                        Text="Delete"
-                        Style="{StaticResource DeleteButtonStyle}"
-                        TextColor ="White"
-                        Command="{Binding DeleteNoteCommand}"
-                        MinimumWidthRequest="40"
-                        VerticalOptions="Center"
-                        Margin="3,3,3,3"
-                        Pressed="OnButtonPressed"
-                        Released="OnButtonReleased"/>
+                <Button
+                    Grid.Column="1"
+                    Text="New"
+                    TextColor="#3E1F00"
+                    BackgroundColor="#F5ECD7"
+                    CornerRadius="8"
+                    Command="{Binding NewNoteCommand}" />
 
-                    <!-- Open Settings button -->
-                    <Button
-                        Grid.Column="4"
-                        Text="Settings"
-                        TextColor="White"
-                        Command="{Binding OpenSettingsCommand}"
-                        MinimumWidthRequest="40"
-                        VerticalOptions="Center"
-                        Margin="3,3,3,3"
-                        Pressed="OnButtonPressed"
-                        Released="OnButtonReleased"/>
-                </Grid>
+                <Button
+                    Grid.Column="2"
+                    Text="Save"
+                    TextColor="#3E1F00"
+                    BackgroundColor="#F5ECD7"
+                    CornerRadius="8"
+                    Command="{Binding SaveNoteCommand}" />
 
-                <!-- Notes list -->
+                <Button
+                    Grid.Column="3"
+                    Text="Delete"
+                    TextColor="#3E1F00"
+                    BackgroundColor="#F5ECD7"
+                    CornerRadius="8"
+                    Command="{Binding DeleteNoteCommand}" />
+
+                <Button
+                    Grid.Column="4"
+                    Text="Settings"
+                    TextColor="#3E1F00"
+                    BackgroundColor="#F5ECD7"
+                    CornerRadius="8"
+                    Command="{Binding OpenSettingsCommand}" />
+            </Grid>
+
+            <!-- LEFT PANEL -->
+            <Grid Grid.Row="1" Grid.Column="0">
+
+                <!-- Just reuse Image like the main background -->
+                <Image
+                    Source="magnific_light_planks.jpg"
+                    Aspect="AspectFill"
+                    Opacity="1" />
+
                 <CollectionView
-                    Grid.Row="1"
-                    BackgroundColor="#B08A4A"
                     ItemsSource="{Binding Notes}"
                     SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
-                    SelectionMode="Single">
+                    SelectionMode="Single"
+                    BackgroundColor="Transparent">
+
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:Note">
                             <Border
                                 Padding="10"
                                 BackgroundColor="Transparent"
-                                StrokeThickness="1"
-                                Stroke="Transparent"
-                                Margin="4">
-
+                                Margin="4"
+                                StrokeThickness="0">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="24" />
                                 </Border.StrokeShape>
-
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="NoteHighlightStates">
-
-                                        <VisualState x:Name="Normal">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="Transparent" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                        <VisualState x:Name="Selected">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="#2B2B2B" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-
                                 <Label
                                     Text="{Binding Content}"
-                                    Padding="10"
+                                    TextColor="White"
                                     LineBreakMode="TailTruncation"
-                                    MaxLines="1"
-                                    FontSize="{Binding Source={x:Reference Root}, Path=BindingContext.FontSize}"
-                                    TextColor="White" />
+                                    MaxLines="1" />
                             </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
+
                 </CollectionView>
 
-                <!-- Editor -->
-                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="12">
-                    <Editor
-                        Placeholder="Write your note..."
-                        Text="{Binding NoteText, Mode=TwoWay}"
-                        AutoSize="TextChanges"
-                        BackgroundColor="Transparent"
-                        TextColor="White"
-                        Margin="0,0,0,12"/>
-                </VerticalStackLayout>
-
             </Grid>
+
+            <!-- RIGHT PANEL -->
+            <Grid Grid.Row="1" Grid.Column="1" Padding="12">
+                <Editor
+                    Placeholder="Write your note..."
+                    Text="{Binding NoteText, Mode=TwoWay}"
+                    AutoSize="TextChanges"
+                    BackgroundColor="Transparent"
+                    TextColor="White" />
+            </Grid>
+
         </Grid>
-    </Border>  
+    </Grid>
 
-    <ContentPage.Resources>
-    <Style x:Key="DeleteButtonStyle" TargetType="Button">
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="#FF910505"/>
-                        </VisualState.Setters>
-                    </VisualState>
-
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="#FF8B4D4D"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-</ContentPage.Resources>
 </ContentPage>

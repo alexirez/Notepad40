@@ -6,135 +6,149 @@
     xmlns:models="clr-namespace:Notepad40.Models"
     xmlns:viewModels="clr-namespace:Notepad40.ViewModels"
     x:Class="Notepad40.Views.MainView"
-    x:DataType="viewModels:MainViewModel">
+    x:DataType="viewModels:MainViewModel"
+    BackgroundColor="Black">
 
-    <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*">
+    <Border
+        Stroke="#FF090909"
+        StrokeThickness="4"
+        Padding="0">
+        <Grid>
+            <!-- Background Layer -->
+            <Image
+                Source="vecteezy_wood_background.jpg"
+                Aspect="AspectFill"
+                Opacity="1" />
 
-        <!-- Toolbar -->
-        <Grid
-            Grid.ColumnSpan="2"
-            ColumnDefinitions="*,Auto,Auto,Auto,Auto"
-            BackgroundColor="#222"
-            Padding="12">
+            <Grid RowDefinitions="Auto,*" ColumnDefinitions="220,*">
 
-            <!-- Logo -->
-            <Label
-                Text="Notepad40"
-                TextColor="White"
-                VerticalOptions="Center" />
+                <!-- Toolbar -->
+                <Grid
+                    Grid.ColumnSpan="2"
+                    ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                    BackgroundColor="Transparent"
+                    Padding="12">
 
-            <!-- New Note button -->
-            <Button
-                Grid.Column="1"
-                Text="New"
-                TextColor ="White"
-                Command="{Binding NewNoteCommand}"
-                MinimumWidthRequest="40"
-                VerticalOptions="Center"
-                Margin="3,3,3,3"
-                Pressed="OnButtonPressed"
-                Released="OnButtonReleased"/>
+                    <!-- Logo -->
+                    <Label
+                        Text="Notepad40"
+                        TextColor="White"
+                        VerticalOptions="Center" />
 
-            <!-- Save Button -->
-            <Button
-                Grid.Column ="2"
-                Text="Save"
-                TextColor ="White"
-                Command="{Binding SaveNoteCommand}"
-                MinimumWidthRequest="40"
-                VerticalOptions="Center"
-                Margin="3,3,3,3"
-                Pressed="OnButtonPressed"
-                Released="OnButtonReleased"/>
+                    <!-- New Note button -->
+                    <Button
+                        Grid.Column="1"
+                        Text="New"
+                        TextColor ="White"
+                        Command="{Binding NewNoteCommand}"
+                        MinimumWidthRequest="40"
+                        VerticalOptions="Center"
+                        Margin="3,3,3,3"
+                        Pressed="OnButtonPressed"
+                        Released="OnButtonReleased"/>
 
-            <!-- Delete Note button -->
-            <Button
-                Grid.Column="3"
-                Text="Delete"
-                Style="{StaticResource DeleteButtonStyle}"
-                TextColor ="White"
-                Command="{Binding DeleteNoteCommand}"
-                MinimumWidthRequest="40"
-                VerticalOptions="Center"
-                Margin="3,3,3,3"
-                Pressed="OnButtonPressed"
-                Released="OnButtonReleased"/>
+                    <!-- Save Button -->
+                    <Button
+                        Grid.Column ="2"
+                        Text="Save"
+                        TextColor ="White"
+                        Command="{Binding SaveNoteCommand}"
+                        MinimumWidthRequest="40"
+                        VerticalOptions="Center"
+                        Margin="3,3,3,3"
+                        Pressed="OnButtonPressed"
+                        Released="OnButtonReleased"/>
 
-            <!-- Open Settings button -->
-            <Button
-                Grid.Column="4"
-                Text="Settings"
-                TextColor="White"
-                Command="{Binding OpenSettingsCommand}"
-                MinimumWidthRequest="40"
-                VerticalOptions="Center"
-                Margin="3,3,3,3"
-                Pressed="OnButtonPressed"
-                Released="OnButtonReleased"/>
-        </Grid>
+                    <!-- Delete Note button -->
+                    <Button
+                        Grid.Column="3"
+                        Text="Delete"
+                        Style="{StaticResource DeleteButtonStyle}"
+                        TextColor ="White"
+                        Command="{Binding DeleteNoteCommand}"
+                        MinimumWidthRequest="40"
+                        VerticalOptions="Center"
+                        Margin="3,3,3,3"
+                        Pressed="OnButtonPressed"
+                        Released="OnButtonReleased"/>
 
-        <!-- Notes list -->
-        <CollectionView
-            Grid.Row="1"
-            BackgroundColor="#1E1E1E"
-            ItemsSource="{Binding Notes}"
-            SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
-            SelectionMode="Single">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:Note">
-                    <Border
-                        Padding="10"
+                    <!-- Open Settings button -->
+                    <Button
+                        Grid.Column="4"
+                        Text="Settings"
+                        TextColor="White"
+                        Command="{Binding OpenSettingsCommand}"
+                        MinimumWidthRequest="40"
+                        VerticalOptions="Center"
+                        Margin="3,3,3,3"
+                        Pressed="OnButtonPressed"
+                        Released="OnButtonReleased"/>
+                </Grid>
+
+                <!-- Notes list -->
+                <CollectionView
+                    Grid.Row="1"
+                    BackgroundColor="#B08A4A"
+                    ItemsSource="{Binding Notes}"
+                    SelectedItem="{Binding SelectedNote, Mode=TwoWay}"
+                    SelectionMode="Single">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Note">
+                            <Border
+                                Padding="10"
+                                BackgroundColor="Transparent"
+                                StrokeThickness="1"
+                                Stroke="Transparent"
+                                Margin="4">
+
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="24" />
+                                </Border.StrokeShape>
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="NoteHighlightStates">
+
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="Transparent" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#2B2B2B" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+
+                                <Label
+                                    Text="{Binding Content}"
+                                    Padding="10"
+                                    LineBreakMode="TailTruncation"
+                                    MaxLines="1"
+                                    FontSize="{Binding Source={x:Reference Root}, Path=BindingContext.FontSize}"
+                                    TextColor="White" />
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Editor -->
+                <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="12">
+                    <Editor
+                        Placeholder="Write your note..."
+                        Text="{Binding NoteText, Mode=TwoWay}"
+                        AutoSize="TextChanges"
                         BackgroundColor="Transparent"
-                        StrokeThickness="1"
-                        Stroke="Transparent"
-                        Margin="4">
+                        TextColor="White"
+                        Margin="0,0,0,12"/>
+                </VerticalStackLayout>
 
-                        <Border.StrokeShape>
-                            <RoundRectangle CornerRadius="24" />
-                        </Border.StrokeShape>
-
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="NoteHighlightStates">
-
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="Transparent" />
-                                    </VisualState.Setters>
-                                </VisualState>
-
-                                <VisualState x:Name="Selected">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="#2B2B2B" />
-                                    </VisualState.Setters>
-                                </VisualState>
-
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-
-                        <Label
-                            Text="{Binding Content}"
-                            Padding="10"
-                            LineBreakMode="TailTruncation"
-                            MaxLines="1"
-                            FontSize="{Binding Source={x:Reference Root}, Path=BindingContext.FontSize}"
-                            TextColor="White" />
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <!-- Editor -->
-        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Padding="12">
-            <Editor
-                Placeholder="Write your note..."
-                Text="{Binding NoteText, Mode=TwoWay}"
-                AutoSize="TextChanges"
-                BackgroundColor="#2E2E2E"
-                TextColor="White"
-                Margin="0,0,0,12"/>
-        </VerticalStackLayout>
-
-    </Grid>
+            </Grid>
+        </Grid>
+    </Border>  
 
     <ContentPage.Resources>
     <Style x:Key="DeleteButtonStyle" TargetType="Button">

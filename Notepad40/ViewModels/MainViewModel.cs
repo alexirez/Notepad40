@@ -22,11 +22,23 @@ public class MainViewModel : ViewModelBase
             _selectedNote = value;
             OnPropertyChanged();
 
+            NoteTitle = _selectedNote?.Title ?? string.Empty;
             NoteText = _selectedNote?.Content ?? string.Empty;
             ((Command)DeleteNoteCommand).ChangeCanExecute();
         }
     }
-    private string _noteText = ""; // ensure non-null by default
+    private string _noteTitle = ""; // ensure non-null by default
+    public string NoteTitle
+    {
+        get => _noteTitle;
+        set
+        {
+            if (_noteTitle == value) return;
+            _noteTitle = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _noteText = "";
     public string NoteText
     {
         get => _noteText;
@@ -106,13 +118,16 @@ public class MainViewModel : ViewModelBase
     private async Task SaveNoteAsync()
     /*Save a note onto disk*/
     {
-        if (string.IsNullOrWhiteSpace(NoteText)) return;
+        if (string.IsNullOrWhiteSpace(NoteTitle) 
+            && string.IsNullOrWhiteSpace(NoteText))
+            return;
 
         if (SelectedNote == null)
         {
             var note = new Note
             {
                 Id = Guid.NewGuid(),
+                Title = NoteTitle,
                 Content = NoteText,
                 CreatedUtc = DateTime.UtcNow,
                 ModifiedUtc = DateTime.UtcNow
@@ -124,7 +139,8 @@ public class MainViewModel : ViewModelBase
         }
         else
         {
-            SelectedNote.Content = NoteText; // Note.Content raises PropertyChanged to update UI
+            SelectedNote.Title = NoteTitle;
+            SelectedNote.Content = NoteText;
             SelectedNote.ModifiedUtc = DateTime.UtcNow;
 
             await _noteService.UpdateAsync(SelectedNote);

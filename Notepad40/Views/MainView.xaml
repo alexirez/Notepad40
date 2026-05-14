@@ -113,7 +113,7 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <Label
-                            Text="{Binding Content}"
+                            Text="{Binding Preview}"
                             Padding="10"
                             LineBreakMode="TailTruncation"
                             MaxLines="1"
@@ -149,24 +149,24 @@
     </Grid>
 
     <ContentPage.Resources>
-    <Style x:Key="DeleteButtonStyle" TargetType="Button">
-        <Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="#FF910505"/>
-                        </VisualState.Setters>
-                    </VisualState>
+        <Style x:Key="DeleteButtonStyle" TargetType="Button">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#FF910505"/>
+                            </VisualState.Setters>
+                        </VisualState>
 
-                    <VisualState x:Name="Disabled">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="#FF8B4D4D"/>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>
-    </Style>
-</ContentPage.Resources>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#FF8B4D4D"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
 </ContentPage>

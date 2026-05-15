@@ -25,10 +25,10 @@ public static class MauiProgram
 		// ------------------------
 		builder.UseMauiCommunityToolkit();
 
-		// ------------------------
+        // ------------------------
         // Register services
         // ------------------------
-		builder.Services.AddSingleton<AppSettings>();
+        builder.Services.AddSingleton<AppSettings>();
 		builder.Services.AddSingleton<ISettingsManager, SettingsManager>();
 		builder.Services.AddSingleton<INoteService, NoteService>();
 		builder.Services.AddTransient<MainViewModel>();

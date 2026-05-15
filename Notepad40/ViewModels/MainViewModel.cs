@@ -66,6 +66,8 @@ public class MainViewModel : ViewModelBase
     public ICommand DeleteNoteCommand { get; }
     public ICommand OpenSettingsCommand { get; }
 
+    public event EventHandler? NoteSaved;
+
     public MainViewModel(INoteService noteService, ISettingsManager settingsManager)
     {
         _settingsManager = settingsManager;
@@ -93,14 +95,14 @@ public class MainViewModel : ViewModelBase
         OpenSettingsRequested?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task InitializeAsync()
     /*Performs all work related to initializing the mainView*/
+    public async Task InitializeAsync()
     {
         await InitializeNotesAsync();
     }
 
-    public async Task InitializeNotesAsync()
     /*Load all notes into memory*/
+    public async Task InitializeNotesAsync()
     {
         IReadOnlyList<Note> notesFromDisk = await _noteService.LoadAllAsync();
 
@@ -115,8 +117,8 @@ public class MainViewModel : ViewModelBase
         NoteText = string.Empty;
     }
 
-    private async Task SaveNoteAsync()
     /*Save a note onto disk*/
+    private async Task SaveNoteAsync()
     {
         if (string.IsNullOrWhiteSpace(NoteTitle) 
             && string.IsNullOrWhiteSpace(NoteText))
@@ -145,11 +147,11 @@ public class MainViewModel : ViewModelBase
 
             await _noteService.UpdateAsync(SelectedNote);
         }
+        NoteSaved?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task DeleteSelectedNoteAsync()
     /*Delete note from memory, then remove from Notes list to update UI*/
-    {
+    public async Task DeleteSelectedNoteAsync()    {
         if (_selectedNote == null) return;
         await _noteService.DeleteAsync(_selectedNote.Id);
 

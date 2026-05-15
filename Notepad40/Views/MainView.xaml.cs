@@ -81,11 +81,13 @@ public partial class MainView : ContentPage
     /*An event to show a snackbar when saving*/
     private async void OnNoteSaved(object? sender, EventArgs e)
     {
+        #if ANDROID || IOS
         await MainThread.InvokeOnMainThreadAsync(async () =>
         {
             var toast = Toast.Make("Note saved", ToastDuration.Short);
             await toast.Show();
         });
+        #endif
     }
 
     protected override void OnHandlerChanged()
@@ -107,7 +109,7 @@ public partial class MainView : ContentPage
     }
 
     #if WINDOWS
-    private void OnKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    private async void OnKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
         var ctrlState = Microsoft.UI.Input.InputKeyboardSource
             .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
@@ -117,6 +119,13 @@ public partial class MainView : ContentPage
         {
             if (BindingContext is MainViewModel vm)
                 vm.SaveNoteCommand.Execute(null);
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await SaveButton.ScaleToAsync(0.80, 150, Easing.CubicOut);
+                await SaveButton.ScaleToAsync(1.0, 150, Easing.CubicIn);
+            });
+
             e.Handled = true;
         }
     }

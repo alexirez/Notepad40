@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using Notepad40.Models;
 using Notepad40.Services;
 
 namespace Notepad40.ViewModels;
@@ -39,6 +40,15 @@ public class SettingsViewModel : ViewModelBase
         DecreaseFontSizeCommand = new Command(DecrementFontSize);
 
         _fontSizeText = _settingsManager.Settings.FontSize.ToString();
+        
+        _settingsManager.Settings.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(AppSettings.FontSize))
+            {
+                OnPropertyChanged(nameof(FontSize));
+                FontSizeText = _settingsManager.Settings.FontSize.ToString();
+            }
+        };
     }
 
     private void IncrementFontSize()

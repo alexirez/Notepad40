@@ -22,8 +22,10 @@ public class MainViewModel : ViewModelBase
             _selectedNote = value;
             OnPropertyChanged();
 
-            NoteTitle = _selectedNote?.Title ?? string.Empty;
-            NoteText = _selectedNote?.Content ?? string.Empty;
+            _noteTitle = _selectedNote?.Title ?? string.Empty;
+            _noteText = _selectedNote?.Content ?? string.Empty;
+            OnPropertyChanged(nameof(NoteTitle));
+            OnPropertyChanged(nameof(NoteText));
             ((Command)DeleteNoteCommand).ChangeCanExecute();
         }
     }
@@ -65,6 +67,8 @@ public class MainViewModel : ViewModelBase
     public ICommand NewNoteCommand { get; }
     public ICommand DeleteNoteCommand { get; }
     public ICommand OpenSettingsCommand { get; }
+    public ICommand IncreaseFontSizeCommand { get; }
+    public ICommand DecreaseFontSizeCommand { get; }
 
     public event EventHandler? NoteSaved;
 
@@ -72,6 +76,8 @@ public class MainViewModel : ViewModelBase
     {
         _settingsManager = settingsManager;
         _noteService = noteService;
+
+        // Define ICommands
         SaveNoteCommand = new Command(async () => await SaveNoteAsync());
         DeleteNoteCommand = new Command(
             execute: async () => await DeleteSelectedNoteAsync(),
@@ -79,8 +85,26 @@ public class MainViewModel : ViewModelBase
         );
         NewNoteCommand = new Command(NewNote);
         OpenSettingsCommand = new Command(async () => await OnOpenSettingsRequested());
+        IncreaseFontSizeCommand = new Command(() =>
+        {
+            if (FontSize < ISettingsManager.MaxFontSize)
+            {
+                FontSize++;
+                _settingsManager.Settings.FontSize = FontSize;
+                _settingsManager.Save();
+            }
+        });
+        DecreaseFontSizeCommand = new Command(() =>
+        {
+            if (FontSize > ISettingsManager.MinFontSize)
+            {
+                FontSize--;
+                _settingsManager.Settings.FontSize = FontSize;
+                _settingsManager.Save();
+            }
+        });
 
-        // subscribe to changes in the settings
+        // Subscribe to changes in the settings
         _fontSize = _settingsManager.Settings.FontSize; // initial value
 
         _settingsManager.Settings.PropertyChanged += (s, e) =>
@@ -114,6 +138,7 @@ public class MainViewModel : ViewModelBase
     private void NewNote()
     {
         SelectedNote = null;
+        NoteTitle = string.Empty;
         NoteText = string.Empty;
     }
 

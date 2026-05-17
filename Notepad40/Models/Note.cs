@@ -30,6 +30,7 @@ public class Note : INotifyPropertyChanged
             OnPropertyChanged(nameof(Preview));
         }
     }
+
     public Guid Id { get; set; }
     public DateTime CreatedUtc { get; set; }
     public DateTime ModifiedUtc { get; set; }

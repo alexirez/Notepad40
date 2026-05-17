@@ -1,5 +1,3 @@
-using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using Notepad40.ViewModels;
 
@@ -9,6 +7,10 @@ public partial class MainView : ContentPage
 {
     IServiceProvider _services;
     bool _isNavigating;
+
+    const Windows.System.VirtualKey OemPlus = (Windows.System.VirtualKey)0xBB;
+    const Windows.System.VirtualKey OemMinus = (Windows.System.VirtualKey)0xBD;
+
 
     public MainView(MainViewModel vm, IServiceProvider services)
     {
@@ -31,7 +33,14 @@ public partial class MainView : ContentPage
         {
             vm.OpenSettingsRequested += OnOpenSettingsRequested;
             vm.NoteSaved += OnNoteSaved;
+            vm.PropertyChanged += OnViewModelPropertyChanged;
         }
+
+    #if WINDOWS
+        // Delay slightly to ensure handlers are ready
+        await Task.Delay(100);
+        AttachEditorKeyboardHandlers();
+    #endif
     }
 
     protected override void OnDisappearing()
@@ -58,6 +67,14 @@ public partial class MainView : ContentPage
             return;
 
         await view.ScaleToAsync(1.0, 600, Easing.CubicOut);
+    }
+
+    // Debug purpose only
+    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        var items = NotesList.ItemsSource;
+                    NotesList.ItemsSource = null;
+                    NotesList.ItemsSource = items;
     }
 
     private async void OnOpenSettingsRequested(object? sender, EventArgs e)
@@ -109,8 +126,80 @@ public partial class MainView : ContentPage
     }
 
     #if WINDOWS
+    private void AttachEditorKeyboardHandlers()
+    {
+        var titleEditor = this.FindByName<Editor>("titleEditor");
+        var contentEditor = this.FindByName<Editor>("contentEditor");
+
+        if (titleEditor?.Handler?.PlatformView is Microsoft.UI.Xaml.Controls.TextBox titleTextBox)
+        {
+            titleTextBox.AddHandler(
+                Microsoft.UI.Xaml.UIElement.KeyDownEvent,
+                new Microsoft.UI.Xaml.Input.KeyEventHandler(EditorKeyDown),
+                handledEventsToo: true);
+            titleTextBox.BeforeTextChanging += (s, e) => PreventZoomKeyInput(e);
+        }
+
+        if (contentEditor?.Handler?.PlatformView is Microsoft.UI.Xaml.Controls.TextBox noteTextBox)
+        {
+            noteTextBox.AddHandler(
+                Microsoft.UI.Xaml.UIElement.KeyDownEvent,
+                new Microsoft.UI.Xaml.Input.KeyEventHandler(EditorKeyDown),
+                handledEventsToo: true);
+            noteTextBox.BeforeTextChanging += (s, e) => PreventZoomKeyInput(e);
+        }
+    }
+
+    private void PreventZoomKeyInput(Microsoft.UI.Xaml.Controls.TextBoxBeforeTextChangingEventArgs e)
+    {
+        // Prevent text insertion when Ctrl+/- is pressed
+        var ctrlState = Microsoft.UI.Input.InputKeyboardSource
+            .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
+        bool isCtrl = ctrlState.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+
+        var isPlus = IsKeyDown(Windows.System.VirtualKey.Add) || IsKeyDown(OemPlus);
+        var isMinus = IsKeyDown(Windows.System.VirtualKey.Subtract) || IsKeyDown(OemMinus);
+
+        if (isPlus || isMinus)
+            e.Cancel = true;
+    }
+
+    private void EditorKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        var ctrlState = Microsoft.UI.Input.InputKeyboardSource
+            .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
+        bool isCtrl = ctrlState.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+
+        if (isCtrl && (e.Key == Windows.System.VirtualKey.Subtract || e.Key == OemMinus))
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.DecreaseFontSizeCommand.Execute(null);
+            e.Handled = true;
+        }
+
+        if (isCtrl && (e.Key == Windows.System.VirtualKey.Add || e.Key == OemPlus))
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.IncreaseFontSizeCommand.Execute(null);
+            e.Handled = true;
+        }
+    }
+
+    private static bool IsKeyDown(Windows.System.VirtualKey key)
+    {
+        return Microsoft.UI.Input.InputKeyboardSource
+            .GetKeyStateForCurrentThread(key)
+            .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+    }
+    #endif
+
+    #if WINDOWS
     private async void OnKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
+        // Main keyboard + and - (OEM keys)
+        const Windows.System.VirtualKey OemPlus = (Windows.System.VirtualKey)0xBB;
+        const Windows.System.VirtualKey OemMinus = (Windows.System.VirtualKey)0xBD;
+
         var ctrlState = Microsoft.UI.Input.InputKeyboardSource
             .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
         bool isCtrl = ctrlState.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
@@ -126,6 +215,20 @@ public partial class MainView : ContentPage
                 await SaveButton.ScaleToAsync(1.0, 150, Easing.CubicIn);
             });
 
+            e.Handled = true;
+        }
+
+        if (isCtrl && (e.Key == Windows.System.VirtualKey.Add || e.Key == OemPlus))
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.IncreaseFontSizeCommand.Execute(null);
+            e.Handled = true;
+        }
+
+        if (isCtrl && (e.Key == Windows.System.VirtualKey.Subtract || e.Key == OemMinus))
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.DecreaseFontSizeCommand.Execute(null);
             e.Handled = true;
         }
     }

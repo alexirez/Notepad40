@@ -6,8 +6,6 @@ namespace Notepad40.ViewModels;
 public class SettingsViewModel : ViewModelBase
 {
     ISettingsManager _settingsManager;
-    private const double MinFontSize = 8;
-    private const double MaxFontSize = 28;
     private string _fontSizeText;
     public string FontSizeText
     {
@@ -45,12 +43,12 @@ public class SettingsViewModel : ViewModelBase
 
     private void IncrementFontSize()
     {
-        if (FontSize < MaxFontSize)
+        if (FontSize < ISettingsManager.MaxFontSize)
             FontSize++;
     }
     private void DecrementFontSize()
     {
-        if (FontSize > MinFontSize)
+        if (FontSize > ISettingsManager.MinFontSize)
             FontSize--;
     }
 
@@ -63,7 +61,7 @@ public class SettingsViewModel : ViewModelBase
             return;
         }
 
-        value = Math.Clamp(value, MinFontSize, MaxFontSize);
+        value = Math.Clamp(value, ISettingsManager.MinFontSize, ISettingsManager.MaxFontSize);
         FontSize = value;
     }
 }

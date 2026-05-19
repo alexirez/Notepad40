@@ -25,6 +25,7 @@
 
             <!-- New Note button -->
             <Button
+                x:Name="NewNoteButton"
                 Grid.Column="1"
                 Text="New"
                 TextColor ="White"
@@ -50,6 +51,7 @@
 
             <!-- Delete Note button -->
             <Button
+                x:Name="DeleteButton"
                 Grid.Column="3"
                 Text="Delete"
                 Style="{StaticResource DeleteButtonStyle}"

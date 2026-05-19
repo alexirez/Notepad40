@@ -57,7 +57,7 @@ public partial class MainView : ContentPage
         if (sender is not VisualElement view)
             return;
 
-        await view.ScaleToAsync(0.80, 600, Easing.CubicOut);
+        await view.ScaleToAsync(0.80, 300, Easing.CubicOut);
     }
 
     private async void OnButtonReleased(object sender, EventArgs e)
@@ -65,7 +65,7 @@ public partial class MainView : ContentPage
         if (sender is not VisualElement view)
             return;
 
-        await view.ScaleToAsync(1.0, 600, Easing.CubicOut);
+        await view.ScaleToAsync(1.0, 300, Easing.CubicOut);
     }
 
     private async void OnOpenSettingsRequested(object? sender, EventArgs e)
@@ -155,7 +155,7 @@ public partial class MainView : ContentPage
             e.Cancel = true;
     }
 
-    private void EditorKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    private async void EditorKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
         var ctrlState = Microsoft.UI.Input.InputKeyboardSource
             .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
@@ -172,6 +172,48 @@ public partial class MainView : ContentPage
         {
             if (BindingContext is MainViewModel vm)
                 vm.IncreaseFontSizeCommand.Execute(null);
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.S)
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.SaveNoteCommand.Execute(null);
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await SaveButton.ScaleToAsync(0.80, 130, Easing.CubicOut);
+                await SaveButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
+            });
+
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.N)
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.NewNoteCommand.Execute(null);
+            
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await NewNoteButton.ScaleToAsync(0.80, 130, Easing.CubicOut);
+                await NewNoteButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
+            });
+
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.Delete)
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.DeleteNoteCommand.Execute(null);
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await DeleteButton.ScaleToAsync(0.80, 130, Easing.CubicOut);
+                await DeleteButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
+            });
+
             e.Handled = true;
         }
     }
@@ -195,20 +237,6 @@ public partial class MainView : ContentPage
             .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
         bool isCtrl = ctrlState.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
 
-        if (isCtrl && e.Key == Windows.System.VirtualKey.S)
-        {
-            if (BindingContext is MainViewModel vm)
-                vm.SaveNoteCommand.Execute(null);
-
-            await MainThread.InvokeOnMainThreadAsync(async () =>
-            {
-                await SaveButton.ScaleToAsync(0.80, 150, Easing.CubicOut);
-                await SaveButton.ScaleToAsync(1.0, 150, Easing.CubicIn);
-            });
-
-            e.Handled = true;
-        }
-
         if (isCtrl && (e.Key == Windows.System.VirtualKey.Add || e.Key == OemPlus))
         {
             if (BindingContext is MainViewModel vm)
@@ -220,6 +248,48 @@ public partial class MainView : ContentPage
         {
             if (BindingContext is MainViewModel vm)
                 vm.DecreaseFontSizeCommand.Execute(null);
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.S)
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.SaveNoteCommand.Execute(null);
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await SaveButton.ScaleToAsync(0.80, 130, Easing.CubicOut);
+                await SaveButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
+            });
+
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.N)
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.NewNoteCommand.Execute(null);
+            
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await NewNoteButton.ScaleToAsync(0.80, 130, Easing.CubicOut);
+                await NewNoteButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
+            });
+
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.Delete)
+        {
+            if (BindingContext is MainViewModel vm)
+                vm.DeleteNoteCommand.Execute(null);
+
+            await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                await DeleteButton.ScaleToAsync(0.80, 130, Easing.CubicOut);
+                await DeleteButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
+            });
+
             e.Handled = true;
         }
     }

@@ -11,6 +11,7 @@ public partial class MainView : ContentPage
     const Windows.System.VirtualKey OemPlus = (Windows.System.VirtualKey)0xBB;
     const Windows.System.VirtualKey OemMinus = (Windows.System.VirtualKey)0xBD;
 
+    private Microsoft.UI.Xaml.FrameworkElement? _keyWindow;
 
     public MainView(MainViewModel vm, IServiceProvider services)
     {
@@ -50,6 +51,14 @@ public partial class MainView : ContentPage
             vm.OpenSettingsRequested -= OnOpenSettingsRequested;
             vm.NoteSaved -= OnNoteSaved;
         }
+
+        #if WINDOWS
+        if (_keyWindow != null)
+        {
+            _keyWindow.KeyDown -= OnKeyDown;
+            _keyWindow = null;
+        }
+        #endif
     }
 
     private async void OnButtonPressed(object sender, EventArgs e)
@@ -110,7 +119,10 @@ public partial class MainView : ContentPage
             {
                 var window = view.XamlRoot?.Content as Microsoft.UI.Xaml.FrameworkElement;
                 if (window != null)
+                {
+                    _keyWindow = window;
                     window.KeyDown += OnKeyDown;
+                }
             };
         }
     #endif

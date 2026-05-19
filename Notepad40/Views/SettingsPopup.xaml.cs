@@ -43,5 +43,36 @@ public partial class SettingsPopup : Popup
             entry.Unfocus();
     }
 
+    protected override void OnHandlerChanged()
+    {
+        base.OnHandlerChanged();
+
+    #if WINDOWS
+    var view = Handler?.PlatformView as Microsoft.UI.Xaml.FrameworkElement;
+    if (view != null)
+    {
+        view.Loaded += (s, e) =>
+        {
+            var window = view.XamlRoot?.Content as Microsoft.UI.Xaml.FrameworkElement;
+            if (window != null)
+            {
+                window.KeyDown += OnKeyDown;
+                Closed += (_, _) => window.KeyDown -= OnKeyDown;
+            }
+        };
+    }
+    #endif
+    }
+
+    #if WINDOWS
+    private void OnKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
+    {
+        if (e.Key == Windows.System.VirtualKey.Escape)
+        {
+            _ = CloseAsync();
+            e.Handled = true;
+        }
+    }
+    #endif
     // TODO: add auto highlight on font size focused
 }

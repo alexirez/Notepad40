@@ -13,10 +13,10 @@ public partial class SettingsPopup : Popup
     }
 
     void OnFontSizeUnfocused(object sender, FocusEventArgs e)
-{
-    if (BindingContext is SettingsViewModel vm)
-        vm.CommitFontSize();
-}
+    {
+        if (BindingContext is SettingsViewModel vm)
+            vm.CommitFontSize();
+    }
 
     private async void OnButtonPressed(object sender, EventArgs e)
     {
@@ -47,21 +47,21 @@ public partial class SettingsPopup : Popup
     {
         base.OnHandlerChanged();
 
-    #if WINDOWS
-    var view = Handler?.PlatformView as Microsoft.UI.Xaml.FrameworkElement;
-    if (view != null)
-    {
-        view.Loaded += (s, e) =>
+        #if WINDOWS
+        var view = Handler?.PlatformView as Microsoft.UI.Xaml.FrameworkElement;
+        if (view != null)
         {
-            var window = view.XamlRoot?.Content as Microsoft.UI.Xaml.FrameworkElement;
-            if (window != null)
+            view.Loaded += (s, e) =>
             {
-                window.KeyDown += OnKeyDown;
-                Closed += (_, _) => window.KeyDown -= OnKeyDown;
-            }
-        };
-    }
-    #endif
+                var window = view.XamlRoot?.Content as Microsoft.UI.Xaml.FrameworkElement;
+                if (window != null)
+                {
+                    window.KeyDown += OnKeyDown;
+                    Closed += (_, _) => window.KeyDown -= OnKeyDown;
+                }
+            };
+        }
+        #endif
     }
 
     #if WINDOWS
@@ -74,5 +74,4 @@ public partial class SettingsPopup : Popup
         }
     }
     #endif
-    // TODO: add auto highlight on font size focused
 }

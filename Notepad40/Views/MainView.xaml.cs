@@ -33,7 +33,6 @@ public partial class MainView : ContentPage
         {
             vm.OpenSettingsRequested += OnOpenSettingsRequested;
             vm.NoteSaved += OnNoteSaved;
-            vm.PropertyChanged += OnViewModelPropertyChanged;
         }
 
     #if WINDOWS
@@ -67,14 +66,6 @@ public partial class MainView : ContentPage
             return;
 
         await view.ScaleToAsync(1.0, 600, Easing.CubicOut);
-    }
-
-    // Debug purpose only
-    private void OnViewModelPropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        var items = NotesList.ItemsSource;
-                    NotesList.ItemsSource = null;
-                    NotesList.ItemsSource = items;
     }
 
     private async void OnOpenSettingsRequested(object? sender, EventArgs e)

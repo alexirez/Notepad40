@@ -67,9 +67,19 @@ public partial class SettingsPopup : Popup
     #if WINDOWS
     private void OnKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
+        var ctrlState = Microsoft.UI.Input.InputKeyboardSource
+            .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
+        bool isCtrl = ctrlState.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
+
         if (e.Key == Windows.System.VirtualKey.Escape)
         {
             _ = CloseAsync();
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.W)
+        {
+            Application.Current?.CloseWindow(Application.Current.Windows[0]);
             e.Handled = true;
         }
     }

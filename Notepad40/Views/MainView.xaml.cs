@@ -8,10 +8,12 @@ public partial class MainView : ContentPage
     IServiceProvider _services;
     bool _isNavigating;
 
+    #if WINDOWS
     const Windows.System.VirtualKey OemPlus = (Windows.System.VirtualKey)0xBB;
     const Windows.System.VirtualKey OemMinus = (Windows.System.VirtualKey)0xBD;
 
     private Microsoft.UI.Xaml.FrameworkElement? _keyWindow;
+    #endif
 
     public MainView(MainViewModel vm, IServiceProvider services)
     {
@@ -228,6 +230,12 @@ public partial class MainView : ContentPage
 
             e.Handled = true;
         }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.W)
+        {
+            Application.Current?.CloseWindow(Application.Current.Windows[0]);
+            e.Handled = true;
+        }
     }
 
     private static bool IsKeyDown(Windows.System.VirtualKey key)
@@ -241,10 +249,6 @@ public partial class MainView : ContentPage
     #if WINDOWS
     private async void OnKeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
     {
-        // Main keyboard + and - (OEM keys)
-        const Windows.System.VirtualKey OemPlus = (Windows.System.VirtualKey)0xBB;
-        const Windows.System.VirtualKey OemMinus = (Windows.System.VirtualKey)0xBD;
-
         var ctrlState = Microsoft.UI.Input.InputKeyboardSource
             .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control);
         bool isCtrl = ctrlState.HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down);
@@ -302,6 +306,12 @@ public partial class MainView : ContentPage
                 await DeleteButton.ScaleToAsync(1.0, 130, Easing.CubicIn);
             });
 
+            e.Handled = true;
+        }
+
+        if (isCtrl && e.Key == Windows.System.VirtualKey.W)
+        {
+            Application.Current?.CloseWindow(Application.Current.Windows[0]);
             e.Handled = true;
         }
     }

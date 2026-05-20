@@ -25,6 +25,7 @@
 
             <!-- New Note button -->
             <Button
+                x:Name="NewNoteButton"
                 Grid.Column="1"
                 Text="New"
                 TextColor ="White"
@@ -37,6 +38,7 @@
 
             <!-- Save Button -->
             <Button
+                x:Name="SaveButton"
                 Grid.Column ="2"
                 Text="Save"
                 TextColor ="White"
@@ -49,6 +51,7 @@
 
             <!-- Delete Note button -->
             <Button
+                x:Name="DeleteButton"
                 Grid.Column="3"
                 Text="Delete"
                 Style="{StaticResource DeleteButtonStyle}"
@@ -75,6 +78,7 @@
 
         <!-- Notes list -->
         <CollectionView
+            x:Name="NotesList"
             Grid.Row="1"
             Grid.RowSpan="2"
             BackgroundColor="#1E1E1E"
@@ -114,10 +118,10 @@
 
                         <Label
                             Text="{Binding Preview}"
+                            FontSize="{Binding BindingContext.FontSize, Source={x:Reference Root}}"
                             Padding="10"
                             LineBreakMode="TailTruncation"
                             MaxLines="1"
-                            FontSize="{Binding Source={x:Reference Root}, Path=BindingContext.FontSize}"
                             TextColor="White" />
                     </Border>
                 </DataTemplate>
@@ -126,9 +130,12 @@
 
         <!-- Title Editor -->
         <Editor
+            x:Name="titleEditor"
             Grid.Row="1" Grid.Column="1"
             Placeholder="Title..."
+            PlaceholderColor="#888888"
             Text="{Binding NoteTitle, Mode=TwoWay}"
+            FontSize="{Binding FontSize}"
             HorizontalOptions="Fill"
             VerticalOptions="Fill"
             BackgroundColor="#2E2E2E"
@@ -137,9 +144,12 @@
 
         <!-- Note Editor -->
         <Editor
+            x:Name="contentEditor"
             Grid.Row="2" Grid.Column="1"
             Placeholder="Write your note..."
+            PlaceholderColor="#888888"
             Text="{Binding NoteText, Mode=TwoWay}"
+            FontSize="{Binding FontSize}"
             HorizontalOptions="Fill"
             VerticalOptions="Fill"
             BackgroundColor="#2E2E2E"

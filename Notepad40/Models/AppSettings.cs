@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Notepad40.Models;
 
@@ -13,7 +14,7 @@ public class AppSettings : INotifyPropertyChanged
             if (_notesDirectory != value)
             {
                 _notesDirectory = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(NotesDirectory)));
+                OnPropertyChanged();            
             }
         }
     }
@@ -26,10 +27,13 @@ public class AppSettings : INotifyPropertyChanged
             if (_fontSize != value)
             {
                 _fontSize = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FontSize)));
+                OnPropertyChanged();
             }
         }
     }
+
+    protected void OnPropertyChanged([CallerMemberName] string? name = null)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
     public event PropertyChangedEventHandler? PropertyChanged;
 }

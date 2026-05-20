@@ -22,8 +22,10 @@ public class MainViewModel : ViewModelBase
             _selectedNote = value;
             OnPropertyChanged();
 
-            NoteTitle = _selectedNote?.Title ?? string.Empty;
-            NoteText = _selectedNote?.Content ?? string.Empty;
+            _noteTitle = _selectedNote?.Title ?? string.Empty;
+            _noteText = _selectedNote?.Content ?? string.Empty;
+            OnPropertyChanged(nameof(NoteTitle));
+            OnPropertyChanged(nameof(NoteText));
             ((Command)DeleteNoteCommand).ChangeCanExecute();
         }
     }
@@ -65,11 +67,17 @@ public class MainViewModel : ViewModelBase
     public ICommand NewNoteCommand { get; }
     public ICommand DeleteNoteCommand { get; }
     public ICommand OpenSettingsCommand { get; }
+    public ICommand IncreaseFontSizeCommand { get; }
+    public ICommand DecreaseFontSizeCommand { get; }
+
+    public event EventHandler? NoteSaved;
 
     public MainViewModel(INoteService noteService, ISettingsManager settingsManager)
     {
         _settingsManager = settingsManager;
         _noteService = noteService;
+
+        // Define ICommands
         SaveNoteCommand = new Command(async () => await SaveNoteAsync());
         DeleteNoteCommand = new Command(
             execute: async () => await DeleteSelectedNoteAsync(),
@@ -77,8 +85,26 @@ public class MainViewModel : ViewModelBase
         );
         NewNoteCommand = new Command(NewNote);
         OpenSettingsCommand = new Command(async () => await OnOpenSettingsRequested());
+        IncreaseFontSizeCommand = new Command(() =>
+        {
+            if (FontSize < ISettingsManager.MaxFontSize)
+            {
+                FontSize++;
+                _settingsManager.Settings.FontSize = FontSize;
+                _settingsManager.Save();
+            }
+        });
+        DecreaseFontSizeCommand = new Command(() =>
+        {
+            if (FontSize > ISettingsManager.MinFontSize)
+            {
+                FontSize--;
+                _settingsManager.Settings.FontSize = FontSize;
+                _settingsManager.Save();
+            }
+        });
 
-        // subscribe to changes in the settings
+        // Subscribe to changes in the settings
         _fontSize = _settingsManager.Settings.FontSize; // initial value
 
         _settingsManager.Settings.PropertyChanged += (s, e) =>
@@ -93,14 +119,14 @@ public class MainViewModel : ViewModelBase
         OpenSettingsRequested?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task InitializeAsync()
     /*Performs all work related to initializing the mainView*/
+    public async Task InitializeAsync()
     {
         await InitializeNotesAsync();
     }
 
-    public async Task InitializeNotesAsync()
     /*Load all notes into memory*/
+    public async Task InitializeNotesAsync()
     {
         IReadOnlyList<Note> notesFromDisk = await _noteService.LoadAllAsync();
 
@@ -112,11 +138,12 @@ public class MainViewModel : ViewModelBase
     private void NewNote()
     {
         SelectedNote = null;
+        NoteTitle = string.Empty;
         NoteText = string.Empty;
     }
 
-    private async Task SaveNoteAsync()
     /*Save a note onto disk*/
+    private async Task SaveNoteAsync()
     {
         if (string.IsNullOrWhiteSpace(NoteTitle) 
             && string.IsNullOrWhiteSpace(NoteText))
@@ -145,11 +172,11 @@ public class MainViewModel : ViewModelBase
 
             await _noteService.UpdateAsync(SelectedNote);
         }
+        NoteSaved?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task DeleteSelectedNoteAsync()
     /*Delete note from memory, then remove from Notes list to update UI*/
-    {
+    public async Task DeleteSelectedNoteAsync()    {
         if (_selectedNote == null) return;
         await _noteService.DeleteAsync(_selectedNote.Id);
 

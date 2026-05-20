@@ -54,13 +54,15 @@ public partial class MainView : ContentPage
             vm.NoteSaved -= OnNoteSaved;
         }
 
-        #if WINDOWS
+    #if WINDOWS
         if (_keyWindow != null)
         {
-            _keyWindow.KeyDown -= OnKeyDown;
+            _keyWindow.RemoveHandler(
+                Microsoft.UI.Xaml.UIElement.KeyDownEvent,
+                new Microsoft.UI.Xaml.Input.KeyEventHandler(OnKeyDown));
             _keyWindow = null;
         }
-        #endif
+    #endif
     }
 
     private async void OnButtonPressed(object sender, EventArgs e)
@@ -119,11 +121,14 @@ public partial class MainView : ContentPage
         {
             view.Loaded += (s, e) =>
             {
-                var window = view.XamlRoot?.Content as Microsoft.UI.Xaml.FrameworkElement;
-                if (window != null)
+                var root = view.XamlRoot?.Content as Microsoft.UI.Xaml.UIElement;
+                if (root != null)
                 {
-                    _keyWindow = window;
-                    window.KeyDown += OnKeyDown;
+                    root.AddHandler(
+                        Microsoft.UI.Xaml.UIElement.KeyDownEvent,
+                        new Microsoft.UI.Xaml.Input.KeyEventHandler(OnKeyDown),
+                        handledEventsToo: true);
+                    _keyWindow = root as Microsoft.UI.Xaml.FrameworkElement;
                 }
             };
         }

@@ -16,11 +16,8 @@ jobs:
       - name: Install MAUI Windows workload
         run: dotnet workload install maui-windows
 
-      - name: Restore
-        run: dotnet restore Notepad40/Notepad40.csproj -p:TargetFramework=net10.0-windows10.0.19041.0 -p:RuntimeIdentifier=win-x64
-
       - name: Build Windows app
-        run: dotnet publish Notepad40/Notepad40.csproj -f net10.0-windows10.0.19041.0 -c Release --no-restore -p:RuntimeIdentifier=win-x64 -o ./publish-windows
+        run: dotnet publish Notepad40/Notepad40.csproj -f net10.0-windows10.0.19041.0 -c Release -p:RuntimeIdentifier=win-x64 -o ./publish-windows
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

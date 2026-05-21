@@ -1,5 +1,7 @@
 using CommunityToolkit.Maui.Extensions;
 using Notepad40.ViewModels;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace Notepad40.Views;
 

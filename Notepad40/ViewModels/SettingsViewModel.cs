@@ -30,6 +30,17 @@ public class SettingsViewModel : ViewModelBase
             FontSizeText = value.ToString(); // keep textbox synced
         }
     }
+    public string FontFamily
+    {
+        get => _settingsManager.Settings.FontFamily;
+        set
+        {
+            if (_settingsManager.Settings.FontFamily == value) return;
+            _settingsManager.Settings.FontFamily = value;
+            OnPropertyChanged();
+            _settingsManager.Save();
+        }
+    }
     public ICommand IncreaseFontSizeCommand { get; } // for increasing with + button
     public ICommand DecreaseFontSizeCommand { get; } // for decreasing with - button
 

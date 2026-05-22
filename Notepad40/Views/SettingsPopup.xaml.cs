@@ -10,6 +10,7 @@ public partial class SettingsPopup : Popup
     {
         InitializeComponent();
         BindingContext = vm;
+        CanBeDismissedByTappingOutsideOfPopup = true;
     }
 
     void OnFontSizeUnfocused(object sender, FocusEventArgs e)
@@ -24,6 +25,11 @@ public partial class SettingsPopup : Popup
             return;
 
         await view.ScaleToAsync(0.80, 600, Easing.CubicOut);
+    }
+
+    private void OnCloseClicked(object sender, EventArgs e)
+    {
+        _ = CloseAsync();
     }
 
     private async void OnButtonReleased(object sender, EventArgs e)

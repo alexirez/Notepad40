@@ -48,6 +48,28 @@
                             <x:String>Default</x:String>
                             <x:String>Consolas</x:String>
                             <x:String>Courier New</x:String>
+                            <x:String>Fontdiner Swanky</x:String>
+                            <x:String>Shadows Into Light</x:String>
+                            <x:String>AudioWide Regular</x:String>
+                            <x:String>BitCountGridDouble</x:String>
+                            <x:String>Danfo Regular</x:String>
+                            <x:String>ClickerScript Regular</x:String>
+                            <x:String>Smokum Regular</x:String>
+                            <x:String>CaeserDressing Regular</x:String>
+                            <x:String>Barrecito Regular</x:String>
+                            <x:String>BungeeSpice Regular</x:String>
+                            <x:String>Butcherman Regular</x:String>
+                            <x:String>CoralPixels Regular</x:String>
+                            <x:String>Creepster Regular</x:String>
+                            <x:String>DiplomataSC Regular</x:String>
+                            <x:String>Doto</x:String>
+                            <x:String>Tiny5 Regular</x:String>
+                            <x:String>RubikSprayPaint</x:String>
+                            <x:String>RubikWetPaint Regular</x:String>
+                            <x:String>SixCaps Regular</x:String>
+                            <x:String>PrincessSofia Regular</x:String>
+                            <x:String>LibreBarcode39</x:String>
+                            <x:String>LibertinusKeyboard</x:String>
                         </Picker.Items>
                     </Picker>
                 </HorizontalStackLayout>

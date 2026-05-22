@@ -20,7 +20,8 @@
             <!-- Logo -->
             <Label
                 Text="Notepad40"
-                FontFamily="{Binding FontFamily}"
+                FontSize="18"
+                FontFamily="Consolas"
                 TextColor="White"
                 VerticalOptions="Center" />
 
@@ -123,7 +124,6 @@
 
                         <Label
                             Text="{Binding Preview}"
-                            FontFamily="{Binding FontFamily}"
                             FontSize="{Binding BindingContext.FontSize, Source={x:Reference Root}}"
                             Padding="10"
                             LineBreakMode="TailTruncation"

@@ -70,6 +70,23 @@
                             <x:String>PrincessSofia Regular</x:String>
                             <x:String>LibreBarcode39</x:String>
                             <x:String>LibertinusKeyboard</x:String>
+                            <x:String>LaBelleAurore Regular</x:String>
+                            <x:String>VinaSans Regular</x:String>
+                            <x:String>Workbench Regular</x:String>
+                            <x:String>Nosifer Regular</x:String>
+                            <x:String>Fascinate Regular</x:String>
+                            <x:String>GrechenFuemen Regular</x:String>
+                            <x:String>Kablammo</x:String>
+                            <x:String>KolkerBrush</x:String>
+                            <x:String>RibeyeMarrow Regular</x:String>
+                            <x:String>RockSalt Regular</x:String>
+                            <x:String>Dorsa Regular</x:String>
+                            <x:String>Macondo Regular</x:String>
+                            <x:String>Jacquard12Charted Regular</x:String>
+                            <x:String>Honk Regular</x:String>
+                            <x:String>Ewert Regular</x:String>
+                            <x:String>ElsieSwashCaps Black</x:String>
+                            <x:String>ElsieSwashCaps Regular</x:String>
                         </Picker.Items>
                     </Picker>
                 </HorizontalStackLayout>

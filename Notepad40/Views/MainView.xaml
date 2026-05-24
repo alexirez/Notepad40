@@ -20,6 +20,8 @@
             <!-- Logo -->
             <Label
                 Text="Notepad40"
+                FontSize="18"
+                FontFamily="Consolas"
                 TextColor="White"
                 VerticalOptions="Center" />
 
@@ -28,6 +30,7 @@
                 x:Name="NewNoteButton"
                 Grid.Column="1"
                 Text="New"
+                FontFamily="{Binding FontFamily}"
                 TextColor ="White"
                 Command="{Binding NewNoteCommand}"
                 MinimumWidthRequest="40"
@@ -41,6 +44,7 @@
                 x:Name="SaveButton"
                 Grid.Column ="2"
                 Text="Save"
+                FontFamily="{Binding FontFamily}"
                 TextColor ="White"
                 Command="{Binding SaveNoteCommand}"
                 MinimumWidthRequest="40"
@@ -54,6 +58,7 @@
                 x:Name="DeleteButton"
                 Grid.Column="3"
                 Text="Delete"
+                FontFamily="{Binding FontFamily}"
                 Style="{StaticResource DeleteButtonStyle}"
                 TextColor ="White"
                 Command="{Binding DeleteNoteCommand}"
@@ -67,6 +72,7 @@
             <Button
                 Grid.Column="4"
                 Text="Settings"
+                FontFamily="{Binding FontFamily}"
                 TextColor="White"
                 Command="{Binding OpenSettingsCommand}"
                 MinimumWidthRequest="40"
@@ -135,6 +141,7 @@
             Placeholder="Title..."
             PlaceholderColor="#888888"
             Text="{Binding NoteTitle, Mode=TwoWay}"
+            FontFamily="{Binding FontFamily}"
             FontSize="{Binding FontSize}"
             HorizontalOptions="Fill"
             VerticalOptions="Fill"
@@ -149,6 +156,7 @@
             Placeholder="Write your note..."
             PlaceholderColor="#888888"
             Text="{Binding NoteText, Mode=TwoWay}"
+            FontFamily="{Binding FontFamily}"
             FontSize="{Binding FontSize}"
             HorizontalOptions="Fill"
             VerticalOptions="Fill"

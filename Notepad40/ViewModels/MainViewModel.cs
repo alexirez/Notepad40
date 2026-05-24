@@ -62,6 +62,17 @@ public class MainViewModel : ViewModelBase
             OnPropertyChanged();
         }
     }
+    private string _fontFamily = "Default";
+    public string FontFamily
+    {
+        get => _fontFamily;
+        set
+        {
+            if (_fontFamily == value) return;
+            _fontFamily = value;
+            OnPropertyChanged();
+        }
+    }
 
     public ICommand SaveNoteCommand { get; }
     public ICommand NewNoteCommand { get; }
@@ -104,13 +115,16 @@ public class MainViewModel : ViewModelBase
             }
         });
 
-        // Subscribe to changes in the settings
-        _fontSize = _settingsManager.Settings.FontSize; // initial value
+        _fontSize = _settingsManager.Settings.FontSize; // initial values
+        _fontFamily = _settingsManager.Settings.FontFamily;
 
+        // Subscribe to changes in the settings
         _settingsManager.Settings.PropertyChanged += (s, e) =>
         {
             if (e.PropertyName == nameof(AppSettings.FontSize))
                 FontSize = _settingsManager.Settings.FontSize;
+            if (e.PropertyName == nameof(AppSettings.FontFamily))
+                FontFamily = _settingsManager.Settings.FontFamily;
         };
     }
 

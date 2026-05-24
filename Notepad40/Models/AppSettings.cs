@@ -32,6 +32,20 @@ public class AppSettings : INotifyPropertyChanged
         }
     }
 
+    private string _fontFamily = "Default";
+    public string FontFamily
+    {
+        get => _fontFamily;
+        set
+        {
+            if (_fontFamily != value)
+            {
+                _fontFamily = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+
     protected void OnPropertyChanged([CallerMemberName] string? name = null)
         => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 

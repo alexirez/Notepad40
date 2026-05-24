@@ -26,6 +26,7 @@
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Notepad40</RootNamespace>
 		<UseMaui>true</UseMaui>
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>

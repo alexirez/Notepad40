@@ -20,7 +20,7 @@ jobs:
         run: dotnet workload install maui
 
       - name: Restore
-        run: dotnet restore Notepad40/Notepad40.csproj -p:UseMonoRuntime=false -v detailed
+        run: dotnet restore Notepad40/Notepad40.csproj -v detailed
 
       - name: Publish
         run: dotnet publish Notepad40/Notepad40.csproj -f net10.0-windows10.0.19041.0 -c Release -r win-x64 -p:UseMonoRuntime=false -o ./publish-windows --no-restore

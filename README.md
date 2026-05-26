@@ -16,6 +16,15 @@
 
 ---
 
+## Basic Features:
+- Add a note
+- Delete a note
+- Update existing note
+- Swap active/selected
+- See customization features below
+
+---
+
 ## ⚙️ Settings
 
 Customize your experience with the settings popup. Click outside the popup to quickly dismiss it, no hunting for an X in the corner. This is especially smooth on mobile.
@@ -64,6 +73,8 @@ Several keyboard shortcuts are available for quick navigation:
 | <kbd>Ctrl</kbd> + <kbd>Del</kbd> | Delete the note |
 | <kbd>Esc</kbd> | Close the settings popup |
 | <kbd>Ctrl</kbd> + <kbd>W</kbd> | Close the app |
+| <kbd>Ctrl</kbd> + <kbd>+</kbd> | Zoom In |
+| <kbd>Ctrl</kbd> + <kbd>-</kbd> | Zoom Out |
 
 ---
 
